@@ -274,7 +274,7 @@ export const FinalScreen = React.memo(({ onAccept, gif }) => {
     );
 });
 
-export const SuccessScreen = React.memo(({ gif }) => {
+export const SuccessScreen = React.memo(({ gif, userName }) => {
     return (
         <motion.div
             className="container success-message"
@@ -290,7 +290,7 @@ export const SuccessScreen = React.memo(({ gif }) => {
             <div className="gif-container">
                 <img src={gif} alt="Celebration GIF" />
             </div>
-            <h1 style={{ fontSize: '3.5rem' }}>I knew you loved me! ❤️</h1>
+            <h1 style={{ fontSize: '3.5rem' }}>{userName} loves Soumya! ❤️</h1>
             <p style={{ fontSize: '2rem' }}>🎉 Yay! 🎉</p>
             <p style={{ fontSize: '1.3rem', marginTop: '1rem', opacity: 0.9 }}>✨ Let's make beautiful memories together! ✨</p>
         </motion.div>

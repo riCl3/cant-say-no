@@ -13,7 +13,7 @@ import './App.css';
 // Messages for each "No" click - Now with 10 creative/funny steps!
 const PERSUASION_STEPS = [
   {
-    text: "Wait wait! Are you sure? 🥺",
+    text: "Wait! Won't you reconsider? 🥺",
     gif: "https://media1.tenor.com/m/AQxYsX3Th2IAAAAd/peach-goma-sad.gif"
   },
   {
@@ -125,6 +125,7 @@ function App() {
         {step === 'success' && (
           <SuccessScreen
             key="success"
+            userName={userName}
             gif="https://media1.tenor.com/m/J3ZgK7SZ0ScAAAAd/peach-goma-love.gif"
           />
         )}
