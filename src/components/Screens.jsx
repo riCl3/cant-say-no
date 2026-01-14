@@ -10,12 +10,35 @@ import Fireworks from './Fireworks';
 import LoveLetter from './LoveLetter';
 
 const containerVariants = {
-    hidden: { opacity: 0, scale: 0.8 },
-    visible: { opacity: 1, scale: 1, transition: { duration: 0.5 } },
-    exit: { opacity: 0, scale: 0.8, transition: { duration: 0.3 } }
+    hidden: {
+        opacity: 0,
+        scale: 0.85,
+        y: 30
+    },
+    visible: {
+        opacity: 1,
+        scale: 1,
+        y: 0,
+        transition: {
+            type: 'spring',
+            stiffness: 100,
+            damping: 15,
+            mass: 0.8,
+            duration: 0.6
+        }
+    },
+    exit: {
+        opacity: 0,
+        scale: 0.9,
+        y: -20,
+        transition: {
+            duration: 0.35,
+            ease: [0.4, 0, 0.2, 1]
+        }
+    }
 };
 
-export const InputScreen = ({ onSetUserName, gif }) => {
+export const InputScreen = React.memo(({ onSetUserName, gif }) => {
     const [inputValue, setInputValue] = useState("");
     const [displayedText, setDisplayedText] = useState("");
     const fullText = "Will you put your name please?";
@@ -76,9 +99,9 @@ export const InputScreen = ({ onSetUserName, gif }) => {
             <div className="signature">Made with ❤️ by Soumya</div>
         </motion.div>
     );
-};
+});
 
-export const QuestionScreen = ({ userName, onAccept, onReject, gif }) => {
+export const QuestionScreen = React.memo(({ userName, onAccept, onReject, gif }) => {
     const [showHeartRain, setShowHeartRain] = useState(false);
     const [showLoveNotes, setShowLoveNotes] = useState(false);
 
@@ -96,7 +119,23 @@ export const QuestionScreen = ({ userName, onAccept, onReject, gif }) => {
                 <img src={gif} alt="Cute GIF" />
             </div>
             <h1>Hey {userName}, I really like you.</h1>
-            <p>Do you like me?</p>
+            <p>
+                <span className="fall-char" style={{ animationDelay: '0s' }}>D</span>
+                <span className="fall-char" style={{ animationDelay: '0.1s' }}>o</span>
+                {' '}
+                <span className="fall-char" style={{ animationDelay: '0.2s' }}>y</span>
+                <span className="fall-char" style={{ animationDelay: '0.3s' }}>o</span>
+                <span className="fall-char" style={{ animationDelay: '0.4s' }}>u</span>
+                {' '}
+                <span className="fall-char" style={{ animationDelay: '0.5s' }}>l</span>
+                <span className="fall-char" style={{ animationDelay: '0.6s' }}>i</span>
+                <span className="fall-char" style={{ animationDelay: '0.7s' }}>k</span>
+                <span className="fall-char" style={{ animationDelay: '0.8s' }}>e</span>
+                {' '}
+                <span className="fall-char" style={{ animationDelay: '0.9s' }}>m</span>
+                <span className="fall-char" style={{ animationDelay: '1.0s' }}>e</span>
+                <span className="fall-char fall-question" style={{ animationDelay: '1.1s' }}>?</span>
+            </p>
             <div className="btn-group">
                 <div className="btn-wrapper">
                     <img
@@ -130,9 +169,9 @@ export const QuestionScreen = ({ userName, onAccept, onReject, gif }) => {
             </div>
         </motion.div>
     );
-};
+});
 
-export const PersuasionScreen = ({ onAccept, onReject, message, gif, noCount = 0 }) => {
+export const PersuasionScreen = React.memo(({ onAccept, onReject, message, gif, noCount = 0 }) => {
     // Dynamic button sizing based on rejection count
     const yesScale = 1 + (noCount * 0.15); // Grows up to 2.5x
     const noScale = Math.max(0.5, 1 - (noCount * 0.08)); // Shrinks to 0.5x
@@ -196,9 +235,9 @@ export const PersuasionScreen = ({ onAccept, onReject, message, gif, noCount = 0
             </div>
         </motion.div>
     );
-};
+});
 
-export const FinalScreen = ({ onAccept, gif }) => {
+export const FinalScreen = React.memo(({ onAccept, gif }) => {
     return (
         <motion.div
             className="container final-screen"
@@ -233,9 +272,9 @@ export const FinalScreen = ({ onAccept, gif }) => {
             </div>
         </motion.div>
     );
-};
+});
 
-export const SuccessScreen = ({ gif }) => {
+export const SuccessScreen = React.memo(({ gif }) => {
     return (
         <motion.div
             className="container success-message"
@@ -256,4 +295,4 @@ export const SuccessScreen = ({ gif }) => {
             <p style={{ fontSize: '1.3rem', marginTop: '1rem', opacity: 0.9 }}>✨ Let's make beautiful memories together! ✨</p>
         </motion.div>
     );
-};
+});

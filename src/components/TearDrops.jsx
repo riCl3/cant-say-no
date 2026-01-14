@@ -11,21 +11,31 @@ const TearDrops = ({ active = true }) => {
         }
 
         const interval = setInterval(() => {
-            const newTear = {
-                id: Date.now() + Math.random(),
-                left: Math.random() * 20 + 40, // Center area
-                duration: Math.random() * 1.5 + 1,
-                delay: Math.random() * 0.5
-            };
+            setTears(prev => {
+                // Limit max tears to 15 for performance
+                if (prev.length >= 15) return prev;
 
-            setTears(prev => [...prev, newTear]);
+                const newTear = {
+                    id: Date.now() + Math.random(),
+                    left: Math.random() * 20 + 40, // Center area
+                    duration: Math.random() * 1.5 + 1,
+                    delay: Math.random() * 0.5
+                };
 
-            setTimeout(() => {
-                setTears(prev => prev.filter(t => t.id !== newTear.id));
-            }, (newTear.duration + newTear.delay) * 1000);
-        }, 300);
+                return [...prev, newTear];
+            });
+        }, 500); // Reduced frequency from 300ms to 500ms
 
-        return () => clearInterval(interval);
+        // Cleanup old tears
+        const cleanupInterval = setInterval(() => {
+            const now = Date.now();
+            setTears(prev => prev.filter(t => (now - t.id) < 4000));
+        }, 1000);
+
+        return () => {
+            clearInterval(interval);
+            clearInterval(cleanupInterval);
+        };
     }, [active]);
 
     if (!active) return null;

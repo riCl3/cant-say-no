@@ -1,38 +1,80 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { motion } from 'framer-motion';
 
 const RunawayButton = ({ onClick, text = "No", runAway = true, scale = 1 }) => {
   const [position, setPosition] = useState({ left: 0, top: 0 });
   const [isRunning, setIsRunning] = useState(false);
   const buttonRef = useRef(null);
+  const rafRef = useRef(null);
+  const lastUpdateRef = useRef(0);
+  const initializedRef = useRef(false);
+
+  // Helper to get random position
+  const getRandomPosition = () => {
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+    const padding = 100;
+
+    return {
+      left: padding + Math.random() * (viewportWidth - 300),
+      top: padding + Math.random() * (viewportHeight - 200)
+    };
+  };
+
+  // Initialize button to random position immediately when runAway is true
+  useEffect(() => {
+    if (!runAway || initializedRef.current) return;
+
+    const initializePosition = () => {
+      setPosition(getRandomPosition());
+      setIsRunning(true);
+      initializedRef.current = true;
+    };
+
+    // Small delay to ensure button is rendered
+    const timer = setTimeout(initializePosition, 50);
+    return () => clearTimeout(timer);
+  }, [runAway]);
 
   useEffect(() => {
     if (!runAway) return;
 
     const handleMouseMove = (e) => {
-      if (!buttonRef.current) return;
+      // Throttle using requestAnimationFrame (max 60fps)
+      if (rafRef.current) return;
 
-      const btnRect = buttonRef.current.getBoundingClientRect();
-      const btnCenterX = btnRect.left + btnRect.width / 2;
-      const btnCenterY = btnRect.top + btnRect.height / 2;
+      rafRef.current = requestAnimationFrame(() => {
+        rafRef.current = null;
 
-      const cursorX = e.clientX;
-      const cursorY = e.clientY;
+        if (!buttonRef.current) return;
 
-      // Calculate distance from cursor to button
-      const deltaX = btnCenterX - cursorX;
-      const deltaY = btnCenterY - cursorY;
-      const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+        const btnRect = buttonRef.current.getBoundingClientRect();
+        const btnCenterX = btnRect.left + btnRect.width / 2;
+        const btnCenterY = btnRect.top + btnRect.height / 2;
 
-      // Run away if cursor gets within 150px
-      const dangerZone = 150;
+        const cursorX = e.clientX;
+        const cursorY = e.clientY;
 
-      if (distance < dangerZone) {
-        // Normalize direction
-        const moveDistance = 350;
+        // Calculate distance from cursor to button
+        const deltaX = btnCenterX - cursorX;
+        const deltaY = btnCenterY - cursorY;
+        const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
 
-        // Add randomness to make it unpredictable
-        const jitter = (Math.random() - 0.5) * 1.2;
+        // CRITICAL ZONE: Teleport if too close (< 80px)
+        if (distance < 80) {
+          setPosition(getRandomPosition());
+          return;
+        }
+
+        // DANGER ZONE: Run away logic (< 350px)
+        const dangerZone = 350;
+        if (distance >= dangerZone) return;
+
+        // Fast movement
+        const moveDistance = 500;
+
+        // Jitter for unpredictability
+        const jitter = (Math.random() - 0.5) * 2.5;
         const cos = Math.cos(jitter);
         const sin = Math.sin(jitter);
         const rotX = deltaX * cos - deltaY * sin;
@@ -47,7 +89,7 @@ const RunawayButton = ({ onClick, text = "No", runAway = true, scale = 1 }) => {
         let newTop = btnRect.top + newDeltaY;
 
         // Screen bounds with padding
-        const padding = 50;
+        const padding = 60;
         const viewportWidth = window.innerWidth;
         const viewportHeight = window.innerHeight;
         const btnWidth = btnRect.width;
@@ -59,18 +101,31 @@ const RunawayButton = ({ onClick, text = "No", runAway = true, scale = 1 }) => {
 
         setPosition({ left: newLeft, top: newTop });
         if (!isRunning) setIsRunning(true);
-      }
+      });
     };
 
     window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      if (rafRef.current) {
+        cancelAnimationFrame(rafRef.current);
+      }
+    };
   }, [runAway, isRunning]);
+
+  // Failsafe: If mouse enters, teleport immediately
+  const handleMouseEnter = () => {
+    if (runAway) {
+      setPosition(getRandomPosition());
+    }
+  };
 
   return (
     <motion.button
       ref={buttonRef}
       className={`btn runaway-btn ${isRunning ? 'running' : ''}`}
       onClick={onClick}
+      onMouseEnter={handleMouseEnter}
       style={{
         position: isRunning ? 'fixed' : 'relative',
         zIndex: 1000,
@@ -82,9 +137,10 @@ const RunawayButton = ({ onClick, text = "No", runAway = true, scale = 1 }) => {
       } : {}}
       transition={{
         type: "spring",
-        stiffness: 800,
-        damping: 20,
-        mass: 0.3
+        stiffness: 600,
+        damping: 12,
+        mass: 0.3,
+        velocity: 5
       }}
     >
       <img
