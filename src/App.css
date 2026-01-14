@@ -1,0 +1,687 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800&display=swap');
+
+:root {
+  /* Premium Dark Theme - Red & Warm Glow */
+  --primary-red: #ef4444;
+  --secondary-red: #dc2626;
+  --accent-warm: #f97316;
+  --bg-dark: #0a0a0a;
+  --bg-darker: #050505;
+  --bg-card: rgba(20, 20, 20, 0.8);
+  --text-primary: #f5f5f5;
+  --text-secondary: rgba(245, 245, 245, 0.7);
+  --glow-red: rgba(239, 68, 68, 0.4);
+  --glow-warm: rgba(249, 115, 22, 0.3);
+  --border-subtle: rgba(245, 245, 245, 0.1);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  /* Premium dark background with subtle gradient */
+  background: radial-gradient(ellipse at top, #1a0a0a 0%, var(--bg-dark) 50%, var(--bg-darker) 100%);
+  background-attachment: fixed;
+  color: var(--text-primary);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Ambient glow effect in background */
+body::before {
+  content: '';
+  position: fixed;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle at 30% 20%, var(--glow-red) 0%, transparent 50%),
+    radial-gradient(circle at 70% 80%, var(--glow-warm) 0%, transparent 50%);
+  opacity: 0.15;
+  animation: ambientGlow 20s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes ambientGlow {
+
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  33% {
+    transform: translate(-5%, 5%) scale(1.1);
+  }
+
+  66% {
+    transform: translate(5%, -5%) scale(0.9);
+  }
+}
+
+#root {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.app-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container {
+  text-align: center;
+  padding: 2rem;
+  max-width: 600px;
+  width: 90%;
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  animation: floatIn 0.8s ease-out;
+}
+
+@keyframes floatIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Screen shake animation for persuasion */
+.container.shake {
+  animation: screenShake 0.5s ease-in-out;
+}
+
+@keyframes screenShake {
+
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+
+  10%,
+  30%,
+  50%,
+  70%,
+  90% {
+    transform: translate(-8px, -8px) rotate(-1deg);
+  }
+
+  20%,
+  40%,
+  60%,
+  80% {
+    transform: translate(8px, 8px) rotate(1deg);
+  }
+}
+
+h1 {
+  font-size: 2.8rem;
+  margin-bottom: 0.5rem;
+  color: var(--text-primary);
+  font-family: 'Playfair Display', serif;
+  text-shadow:
+    0 0 30px var(--glow-red),
+    0 0 60px var(--glow-warm),
+    0 4px 12px rgba(0, 0, 0, 0.5);
+  line-height: 1.3;
+  font-weight: 800;
+  letter-spacing: -1px;
+  animation: glowPulse 3s ease-in-out infinite;
+}
+
+@keyframes glowPulse {
+
+  0%,
+  100% {
+    text-shadow:
+      0 0 30px var(--glow-red),
+      0 0 60px var(--glow-warm),
+      0 4px 12px rgba(0, 0, 0, 0.5);
+  }
+
+  50% {
+    text-shadow:
+      0 0 40px var(--glow-red),
+      0 0 80px var(--glow-warm),
+      0 0 100px rgba(249, 115, 22, 0.5),
+      0 4px 12px rgba(0, 0, 0, 0.5);
+  }
+}
+
+p {
+  font-size: 1.6rem;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+  font-weight: 400;
+  color: var(--text-secondary);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+input {
+  width: 100%;
+  max-width: 400px;
+  padding: 18px 24px;
+  margin-bottom: 30px;
+  border: 1px solid var(--border-subtle);
+  background: rgba(15, 15, 15, 0.6);
+  backdrop-filter: blur(10px);
+  color: var(--text-primary);
+  border-radius: 12px;
+  font-size: 1.15rem;
+  outline: none;
+  font-family: inherit;
+  transition: all 0.3s ease;
+  box-shadow:
+    0 4px 20px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.03);
+}
+
+input::placeholder {
+  color: rgba(245, 245, 245, 0.3);
+}
+
+input:focus {
+  border-color: var(--primary-red);
+  background: rgba(15, 15, 15, 0.8);
+  box-shadow:
+    0 0 40px var(--glow-red),
+    0 4px 25px rgba(0, 0, 0, 0.4),
+    inset 0 0 30px rgba(239, 68, 68, 0.1);
+  transform: translateY(-2px);
+}
+
+.btn {
+  background: linear-gradient(135deg, var(--primary-red), var(--secondary-red));
+  color: white;
+  border: none;
+  padding: 16px 45px;
+  font-size: 1.3rem;
+  border-radius: 12px;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: 600;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  margin: 0 15px;
+  box-shadow:
+    0 8px 30px rgba(239, 68, 68, 0.4),
+    0 0 60px var(--glow-red),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    inset 0 -2px 0 rgba(0, 0, 0, 0.3);
+  user-select: none;
+  -webkit-user-select: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.btn:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+.btn:hover {
+  transform: translateY(-4px) scale(1.05);
+  box-shadow:
+    0 12px 40px rgba(239, 68, 68, 0.6),
+    0 0 80px var(--glow-red),
+    0 0 100px var(--glow-warm),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3),
+    inset 0 -2px 0 rgba(0, 0, 0, 0.3);
+  animation: pulseGlow 1.5s infinite;
+}
+
+.btn:active {
+  transform: translateY(-2px);
+}
+
+@keyframes pulseGlow {
+
+  0%,
+  100% {
+    filter: brightness(1);
+  }
+
+  50% {
+    filter: brightness(1.15);
+  }
+}
+
+.btn-group {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  margin-top: 35px;
+  position: relative;
+  min-height: 90px;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+/* Runaway button specific */
+.runaway-btn {
+  position: absolute;
+}
+
+/* GIF Container Updates */
+.gif-container {
+  margin-bottom: 25px;
+  height: 240px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.gif-container::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, var(--glow-red) 0%, var(--glow-warm) 30%, transparent 70%);
+  border-radius: 50%;
+  animation: heartGlow 3s ease-in-out infinite;
+  pointer-events: none;
+  z-index: -1;
+}
+
+@keyframes heartGlow {
+
+  0%,
+  100% {
+    transform: scale(0.9);
+    opacity: 0.2;
+  }
+
+  50% {
+    transform: scale(1.1);
+    opacity: 0.4;
+  }
+}
+
+.gif-container img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 20px;
+  filter: drop-shadow(0 0 30px var(--glow-red));
+  transition: transform 0.3s ease;
+  border: 1px solid var(--border-subtle);
+}
+
+.gif-container img:hover {
+  transform: scale(1.05);
+  filter: drop-shadow(0 0 40px var(--glow-warm));
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 600px) {
+  .container {
+    padding: 2rem 1.5rem;
+  }
+
+  h1 {
+    font-size: 2.2rem;
+  }
+
+  p {
+    font-size: 1.3rem;
+  }
+
+  .btn {
+    padding: 14px 35px;
+    font-size: 1.1rem;
+  }
+
+  .gif-container {
+    height: 200px;
+  }
+}
+
+/* Button Characters */
+.btn-wrapper {
+  position: relative;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Enhanced Yes button hover */
+.btn-wrapper:has(.btn:not(.runaway-btn)):hover {
+  animation: wiggle 0.5s ease-in-out;
+}
+
+@keyframes wiggle {
+
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+
+  25% {
+    transform: rotate(5deg);
+  }
+
+  75% {
+    transform: rotate(-5deg);
+  }
+}
+
+.btn-character {
+  position: absolute;
+  width: 55px;
+  height: 55px;
+  pointer-events: none;
+  z-index: 20;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+}
+
+/* Yes Character - Left side pointing */
+.character-yes {
+  left: -45px;
+  top: -35px;
+  transform: rotate(-10deg);
+  animation: float 2s ease-in-out infinite;
+}
+
+/* Submit Character - Right side waving */
+.character-submit {
+  right: -50px;
+  top: -30px;
+  width: 60px;
+  height: 60px;
+  animation: wave 1.5s ease-in-out infinite;
+}
+
+/* No Character - On top fighting/blocking */
+.character-no {
+  right: -35px;
+  top: -45px;
+  width: 70px;
+  height: 70px;
+  animation: bounce 1s ease-in-out infinite;
+}
+
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0) rotate(-10deg);
+  }
+
+  50% {
+    transform: translateY(-12px) rotate(-10deg);
+  }
+}
+
+@keyframes wave {
+
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+
+  25% {
+    transform: rotate(18deg);
+  }
+
+  75% {
+    transform: rotate(-18deg);
+  }
+}
+
+@keyframes bounce {
+
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+
+  50% {
+    transform: translateY(-10px) scale(1.08);
+  }
+}
+
+@keyframes shake {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  25% {
+    transform: rotate(12deg);
+  }
+
+  75% {
+    transform: rotate(-12deg);
+  }
+
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+/* Sparkle effect */
+@keyframes sparkle {
+
+  0%,
+  100% {
+    opacity: 0;
+    transform: scale(0);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.sparkle {
+  position: absolute;
+  color: gold;
+  font-size: 20px;
+  animation: sparkle 1.5s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* Success screen enhancements */
+.success-message {
+  animation: slideInScale 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes slideInScale {
+  0% {
+    opacity: 0;
+    transform: scale(0.5) translateY(50px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Signature */
+.signature {
+  margin-top: 2rem;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  opacity: 0.5;
+  transition: opacity 0.3s ease;
+  text-align: center;
+}
+
+.signature:hover {
+  opacity: 0.8;
+}
+
+/* Cursor effects */
+body {
+  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><text y="20" font-size="20">❤️</text></svg>') 12 12, auto;
+}
+
+/* Typewriter effect */
+.typewriter {
+  display: inline-block;
+}
+
+.cursor-blink {
+  animation: blink 1s step-end infinite;
+  margin-left: 2px;
+  color: var(--primary-red);
+}
+
+@keyframes blink {
+
+  0%,
+  50% {
+    opacity: 1;
+  }
+
+  51%,
+  100% {
+    opacity: 0;
+  }
+}
+
+/* Vibration effect for final persuasion stages */
+.vibrate {
+  animation: vibrate 0.3s linear infinite;
+}
+
+@keyframes vibrate {
+
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+
+  25% {
+    transform: translate(-3px, 3px) rotate(-0.5deg);
+  }
+
+  50% {
+    transform: translate(3px, -3px) rotate(0.5deg);
+  }
+
+  75% {
+    transform: translate(-3px, -3px) rotate(-0.5deg);
+  }
+}
+
+/* Final screen spotlight effect */
+.final-screen {
+  position: relative;
+}
+
+.spotlight {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(239, 68, 68, 0.3) 0%, transparent 70%);
+  animation: spotlightPulse 2s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+
+@keyframes spotlightPulse {
+
+  0%,
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.5;
+  }
+
+  50% {
+    transform: translate(-50%, -50%) scale(1.2);
+    opacity: 0.8;
+  }
+}
+
+.pulsing-heart {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 200px;
+  opacity: 0.1;
+  animation: heartPulse 1.5s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes heartPulse {
+
+  0%,
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.1;
+  }
+
+  50% {
+    transform: translate(-50%, -50%) scale(1.2);
+    opacity: 0.2;
+  }
+}
+
+/* Input sparkle on focus */
+input:focus {
+  animation: inputSparkle 1.5s ease-in-out infinite;
+}
+
+@keyframes inputSparkle {
+
+  0%,
+  100% {
+    box-shadow:
+      0 0 40px var(--glow-red),
+      0 4px 25px rgba(0, 0, 0, 0.4),
+      inset 0 0 30px rgba(239, 68, 68, 0.1);
+  }
+
+  50% {
+    box-shadow:
+      0 0 60px var(--glow-red),
+      0 0 80px var(--glow-warm),
+      0 4px 25px rgba(0, 0, 0, 0.4),
+      inset 0 0 40px rgba(239, 68, 68, 0.2);
+  }
+}

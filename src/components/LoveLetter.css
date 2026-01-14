@@ -1,0 +1,139 @@
+.love-letter-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none;
+    z-index: 20;
+}
+
+.envelope {
+    position: relative;
+    width: 300px;
+    height: 200px;
+    animation: envelopeFall 2s ease-out forwards;
+}
+
+.envelope.falling {
+    top: -300px;
+}
+
+.envelope.opening,
+.envelope.revealed {
+    top: 0;
+}
+
+@keyframes envelopeFall {
+    0% {
+        transform: translateY(-500px) rotate(-10deg);
+        opacity: 0;
+    }
+
+    60% {
+        transform: translateY(0) rotate(5deg);
+    }
+
+    100% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+    }
+}
+
+.envelope-body {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 140px;
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    border-radius: 0 0 10px 10px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+}
+
+.envelope-flap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    border-left: 150px solid transparent;
+    border-right: 150px solid transparent;
+    border-top: 100px solid #f97316;
+    transform-origin: top center;
+    transition: transform 1s ease-out;
+    z-index: 2;
+}
+
+.envelope.opening .envelope-flap,
+.envelope.revealed .envelope-flap {
+    transform: rotateX(180deg);
+}
+
+.letter {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 260px;
+    background: #fffef7;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    transform: translateY(0);
+    opacity: 0;
+    transition: all 1s ease-out;
+    z-index: 1;
+}
+
+.letter.visible {
+    transform: translateY(-80px);
+    opacity: 1;
+}
+
+.letter-content {
+    font-family: 'Playfair Display', serif;
+    color: #1a1a1a;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    text-align: center;
+}
+
+.letter-content p {
+    margin: 0.5rem 0;
+    color: #1a1a1a;
+    text-shadow: none;
+}
+
+.letter-content p:first-child {
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: #dc2626;
+}
+
+@media (max-width: 600px) {
+    .envelope {
+        width: 240px;
+        height: 160px;
+    }
+
+    .envelope-body {
+        height: 110px;
+    }
+
+    .envelope-flap {
+        border-left: 120px solid transparent;
+        border-right: 120px solid transparent;
+        border-top: 80px solid #f97316;
+    }
+
+    .letter {
+        width: 200px;
+        padding: 15px;
+    }
+
+    .letter-content {
+        font-size: 0.8rem;
+    }
+}
